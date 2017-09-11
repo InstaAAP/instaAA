@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.media.audiofx.BassBoost;
 import android.net.Uri;
@@ -32,6 +34,12 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -64,11 +72,6 @@ public class MainMenu extends AppCompatActivity {
         filterPicture = (Button) findViewById(R.id.filterButton);
         savePicture = (Button) findViewById(R.id.saveButton);
         rl_view = (RelativeLayout) findViewById(R.id.rl_view);
-
-        GrayScale blackWhite = new GrayScale();
-        Convolution convolution = new Convolution();
-
-
         //Permisos de acceso escritos en el xml
         if(mayRequestStoragePermission())
         {
@@ -93,6 +96,13 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showFilters();
+            }
+        });
+
+        savePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveImage();
             }
         });
 
@@ -258,6 +268,8 @@ public class MainMenu extends AppCompatActivity {
 
     public void showFilters()
     {
+        final GrayScale grayScale = new GrayScale();
+        final Convolution convolution = new Convolution();
         final CharSequence[] options = {"Averaging", "Desaturation", "Maxposition", "Minposition", "Gaussian"
                 , "NameFilter", "Cancelar"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
@@ -268,16 +280,18 @@ public class MainMenu extends AppCompatActivity {
             {
                 if (options[optionSelected]== "Averaging")
                 {
-                    //Metodo para acceder a la camara
-                    openCamera();
+                    grayScale.averagingFiler(ImageView);
                 }else if(options[optionSelected]== "Desaturation")
                 {
+                    grayScale.desaturation(ImageView);
 
                 }else if(options[optionSelected] == "Maxposition")
                 {
+                    grayScale.maxposition(ImageView);
 
                 }else if (options[optionSelected] == "Minposition")
                 {
+                    grayScale.minposition(ImageView);
 
                 }else if(options[optionSelected] == "Gaussian")
                 {
@@ -294,5 +308,52 @@ public class MainMenu extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    public void saveImage()
+    {
+        FileOutputStream fileOutputStream = null;
+        File pFile = getDisc();
+        if(!pFile.exists() && !pFile.mkdirs())
+        {
+            Toast.makeText(this, "No se puede salvar la imagen", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
+        String date = simpleDateFormat.format(new Date());
+        String name = "Img" + date + ".png";
+        String fileName = pFile.getAbsolutePath()+"/"+name;
+        File newFile = new File(fileName);
+         Bitmap originalBitmap;
+         Drawable originalImage;
+        try {
+            fileOutputStream = new FileOutputStream(newFile);
+            originalImage = ImageView.getDrawable();
+            originalBitmap = ((BitmapDrawable)originalImage).getBitmap();
+            Bitmap bitmap = Bitmap.createBitmap(originalBitmap.getWidth(),originalBitmap.getHeight()
+                    ,originalBitmap.getConfig());
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+            Toast.makeText(this , "Saved Image", Toast.LENGTH_SHORT).show();
+            fileOutputStream.flush();
+            fileOutputStream.close();
+
+            Intent pIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            pIntent.setData(Uri.fromFile(newFile));
+
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public File getDisc()
+    {
+        File pFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        return new File(pFile, "Image Demo");
     }
 }
