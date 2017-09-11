@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.josephsalas.instaaa.MainMenu">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/menu"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-124dp"
+        android:layout_marginBottom="40dp"
+        android:layout_alignBottom="@+id/setPicture"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/menu"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="200dp"
+        android:layout_marginTop="183dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/setPicture"
+        android:layout_width="368dp"
+        android:layout_height="361dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@android:color/transparent"
+        tools:layout_editor_absoluteX="9dp"
+        tools:layout_editor_absoluteY="17dp" />
+
+    <Button
+        android:id="@+id/takeButton"
+        android:layout_width="129dp"
+        android:layout_height="48dp"
+        android:text="Foto"
+        tools:layout_editor_absoluteX="128dp"
+        tools:layout_editor_absoluteY="400dp"
+        android:layout_above="@+id/saveButton"
+        android:layout_toRightOf="@+id/filterButton"
+        android:layout_toEndOf="@+id/filterButton" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="129dp"
+        android:layout_height="48dp"
+        android:text="Salvar Foto"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="448dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/filterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aplicar Filtro"
+        tools:layout_editor_absoluteX="237dp"
+        tools:layout_editor_absoluteY="447dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
