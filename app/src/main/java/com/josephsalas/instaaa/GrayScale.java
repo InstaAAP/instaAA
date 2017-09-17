@@ -20,7 +20,7 @@ public class GrayScale {
     private int colorPixel;
 
 
-    public Bitmap averagingFiler(ImageView original)
+    public Bitmap  averagingFiler(ImageView original)
     {
         originalImage = original.getDrawable();
         originalBitmap = ((BitmapDrawable)originalImage).getBitmap();
@@ -29,9 +29,9 @@ public class GrayScale {
         int width = originalBitmap.getWidth();
         int height = originalBitmap.getHeight();
 
-        for(int i = 0; i < height; i++)
+        for(int i = 0; i < width; i++)
         {
-            for (int j = 0; j < width; j++)
+            for (int j = 0; j < height; j++)
             {
                 colorPixel = originalBitmap.getPixel(i,j);
                 A = Color.alpha(colorPixel);
@@ -59,9 +59,9 @@ public class GrayScale {
         int width = originalBitmap.getWidth();
         int height = originalBitmap.getHeight();
 
-        for(int i = 0; i < height; i++)
+        for(int i = 0; i < width; i++)
         {
-            for (int j = 0; j < width; j++)
+            for (int j = 0; j < height; j++)
             {
                 colorPixel = originalBitmap.getPixel(i,j);
                 A = Color.alpha(colorPixel);
@@ -91,9 +91,9 @@ public class GrayScale {
         int width = originalBitmap.getWidth();
         int height = originalBitmap.getHeight();
 
-        for(int i = 0; i < height; i++)
+        for(int i = 0; i < width; i++)
         {
-            for (int j = 0; j < width; j++)
+            for (int j = 0; j < height; j++)
             {
                 colorPixel = originalBitmap.getPixel(i,j);
                 A = Color.alpha(colorPixel);
@@ -122,9 +122,9 @@ public class GrayScale {
         int width = originalBitmap.getWidth();
         int height = originalBitmap.getHeight();
 
-        for(int i = 0; i < height; i++)
+        for(int i = 0; i < width; i++)
         {
-            for (int j = 0; j < width; j++)
+            for (int j = 0; j < height; j++)
             {
                 colorPixel = originalBitmap.getPixel(i,j);
                 A = Color.alpha(colorPixel);

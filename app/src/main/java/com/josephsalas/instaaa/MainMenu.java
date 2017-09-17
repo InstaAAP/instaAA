@@ -60,6 +60,7 @@ public class MainMenu extends AppCompatActivity {
     private Button filterPicture;
     private Button savePicture;
     private String pPath;
+    private Bitmap finalImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,7 +272,7 @@ public class MainMenu extends AppCompatActivity {
         final GrayScale grayScale = new GrayScale();
         final Convolution convolution = new Convolution();
         final CharSequence[] options = {"Averaging", "Desaturation", "Maxposition", "Minposition", "Gaussian"
-                , "NameFilter", "Cancelar"};
+                , "kernelJA", "Cancelar"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
         builder.setTitle("Elija una opcion");
         builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -280,23 +281,32 @@ public class MainMenu extends AppCompatActivity {
             {
                 if (options[optionSelected]== "Averaging")
                 {
-                    grayScale.averagingFiler(ImageView);
+                   finalImage=  grayScale.averagingFiler(ImageView);
+                    ImageView.setImageBitmap(finalImage);
+
                 }else if(options[optionSelected]== "Desaturation")
                 {
-                    grayScale.desaturation(ImageView);
+                    finalImage=  grayScale.desaturation(ImageView);
+                    ImageView.setImageBitmap(finalImage);
 
                 }else if(options[optionSelected] == "Maxposition")
                 {
-                    grayScale.maxposition(ImageView);
+                    finalImage= grayScale.maxposition(ImageView);
+                    ImageView.setImageBitmap(finalImage);
+
 
                 }else if (options[optionSelected] == "Minposition")
                 {
-                    grayScale.minposition(ImageView);
+                  finalImage = grayScale.minposition(ImageView);
+                    ImageView.setImageBitmap(finalImage);
 
                 }else if(options[optionSelected] == "Gaussian")
                 {
+                    finalImage= convolution.convolutionGaus(ImageView);
+                    ImageView.setImageBitmap(finalImage);
 
-                }else if (options[optionSelected] == "NameFilter")
+
+                }else if (options[optionSelected] == "kernelJA")
                 {
 
                 }
