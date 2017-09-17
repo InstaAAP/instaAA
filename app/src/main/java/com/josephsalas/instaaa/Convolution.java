@@ -56,9 +56,9 @@ public class Convolution {
         int kernel_i = 0;
         int kernel_j = 0;
 
-        for(new_i = new_i; new_i < range_i; new_i++){
+        for(new_i = new_i; new_i < original_i + 1; new_i++){
 
-            for (new_j = new_j; new_j < range_j; new_j++){
+            for (new_j = new_j; new_j < original_j + 1; new_j++){
 
                 if(indexValidation(new_i, range_i) && indexValidation(new_j, range_j)){
                     result += kernel[kernel_i][kernel_j] * originalBitmap.getPixel(new_i, new_j);
@@ -69,7 +69,7 @@ public class Convolution {
             kernel_i++;
         }
 
-        result = result / (kernel.length * kernel[0].length);
+        result = Math.round(result / (kernel.length * kernel[0].length));
         return result;
     }
 
