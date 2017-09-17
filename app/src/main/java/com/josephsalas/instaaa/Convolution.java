@@ -39,7 +39,7 @@ public class Convolution {
             {
                 colorPixel = originalBitmap.getPixel(i,j);
 
-                colorPixel = getNewPixel(colorPixel);
+                colorPixel = getNewPixel(i, j, height, width);
 
                 finalImage.setPixel(i,j,colorPixel);
             }
