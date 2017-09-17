@@ -15,8 +15,8 @@ public class Convolution {
     private Color pixelColor;
     private Bitmap originalBitmap;
     private Drawable originalImage;
-    private int A,R,G,B;
     private int colorPixel;
+    private int[][] kernel = new int[][]{{1,1,1},{1,1,1},{1,1,1}};
 
 
     /***
@@ -38,19 +38,52 @@ public class Convolution {
             for (int j = 0; j < width; j++)
             {
                 colorPixel = originalBitmap.getPixel(i,j);
-                A = Color.alpha(colorPixel);
-                R = Color.red(colorPixel);
-                G = Color.green(colorPixel);
-                B = Color.blue(colorPixel);
 
-                R = (R + G + B) / 3;
-                G = R;
-                B = R;
+                colorPixel = getNewPixel(colorPixel);
 
-                finalImage.setPixel(i,j,Color.argb(A,R,G,B));
+                finalImage.setPixel(i,j,colorPixel);
             }
 
         }
         return  finalImage;
+    }
+
+    public int getNewPixel(int original_i, int original_j, int range_i, int range_j){
+        int result = 0;
+
+        int new_i = original_i - 1;
+        int new_j = original_j - 1;
+        int kernel_i = 0;
+        int kernel_j = 0;
+
+        for(new_i = new_i; new_i < range_i; new_i++){
+
+            for (new_j = new_j; new_j < range_j; new_j++){
+
+                if(indexValidation(new_i, range_i) && indexValidation(new_j, range_j)){
+                    result += kernel[kernel_i][kernel_j] * originalBitmap.getPixel(new_i, new_j);
+                }else{}
+
+                kernel_j++;
+            }
+            kernel_i++;
+        }
+
+        result = result / (kernel.length * kernel[0].length);
+        return result;
+    }
+
+    /**
+     * Function to validate the index we want to access
+     * @param index Index to be checked
+     * @param range Valid range for the index to be in
+     * @return True if the index is in range, False if the index is out of range
+     */
+    public boolean indexValidation(int index, int range){
+        if (index >= 0 && index < range){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
