@@ -2,6 +2,7 @@ package com.josephsalas.instaaa;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -103,7 +104,12 @@ public class MainMenu extends AppCompatActivity {
         savePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveImage();
+                ImageView.buildDrawingCache();
+                Bitmap bmap = ImageView.getDrawingCache();
+
+                //guardar imagen
+                SaveImage savefile = new SaveImage();
+                savefile.SaveImage( savePicture.getContext(), bmap);
             }
         });
 
@@ -147,6 +153,7 @@ public class MainMenu extends AppCompatActivity {
                 {
                     //Metodo para acceder a la camara
                     openCamera();
+
                 }else if(options[optionSelected]== "Elegir de Galeria")
                 {
                     Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -214,8 +221,7 @@ public class MainMenu extends AppCompatActivity {
                                     Log.i("ExternalStorage", "-> Uri= "+ uri);
                                 }
                             });
-                    Bitmap bitmap = BitmapFactory.decodeFile(pPath);
-                    ImageView.setImageBitmap(bitmap);
+                    setPic(pPath);
                     break;
                 case SELECT_PICTURE:
                     Uri path = data.getData();
@@ -269,8 +275,8 @@ public class MainMenu extends AppCompatActivity {
 
     public void showFilters()
     {
-        final GrayScale grayScale = new GrayScale();
         final Convolution convolution = new Convolution();
+        final Testing testing = new Testing();
         final CharSequence[] options = {"Averaging", "Desaturation", "Maxposition", "Minposition", "Gaussian"
                 , "kernelJA", "Cancelar"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
@@ -281,33 +287,39 @@ public class MainMenu extends AppCompatActivity {
             {
                 if (options[optionSelected]== "Averaging")
                 {
+                    final GrayScale grayScale = new GrayScale();
                    finalImage=  grayScale.averagingFiler(ImageView);
                     ImageView.setImageBitmap(finalImage);
 
                 }else if(options[optionSelected]== "Desaturation")
                 {
+                    final GrayScale grayScale = new GrayScale();
                     finalImage=  grayScale.desaturation(ImageView);
                     ImageView.setImageBitmap(finalImage);
 
                 }else if(options[optionSelected] == "Maxposition")
                 {
+                    final GrayScale grayScale = new GrayScale();
                     finalImage= grayScale.maxposition(ImageView);
                     ImageView.setImageBitmap(finalImage);
 
 
                 }else if (options[optionSelected] == "Minposition")
                 {
+                    final GrayScale grayScale = new GrayScale();
                   finalImage = grayScale.minposition(ImageView);
                     ImageView.setImageBitmap(finalImage);
 
                 }else if(options[optionSelected] == "Gaussian")
                 {
-                    finalImage= convolution.convolutionGaus(ImageView);
+                    finalImage= convolution.convolutionGauss(ImageView);
                     ImageView.setImageBitmap(finalImage);
 
 
                 }else if (options[optionSelected] == "kernelJA")
                 {
+                    finalImage= convolution.kernelJA(ImageView);
+                    ImageView.setImageBitmap(finalImage);
 
                 }
                 else
@@ -365,5 +377,29 @@ public class MainMenu extends AppCompatActivity {
     {
         File pFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         return new File(pFile, "Image Demo");
+    }
+
+    private void setPic(String pPath) {
+        // Get the dimensions of the View
+        int targetW = ImageView.getWidth();
+        int targetH = ImageView.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(pPath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
+        ImageView.setImageBitmap(bitmap);
     }
 }

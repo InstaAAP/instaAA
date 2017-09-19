@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.util.Log;
 import android.widget.ImageView;
 
 /**
@@ -22,6 +23,7 @@ public class GrayScale {
 
     public Bitmap  averagingFiler(ImageView original)
     {
+        Long timeStamp = System.currentTimeMillis();
         originalImage = original.getDrawable();
         originalBitmap = ((BitmapDrawable)originalImage).getBitmap();
         Bitmap finalImage = Bitmap.createBitmap(originalBitmap.getWidth(),originalBitmap.getHeight()
@@ -45,6 +47,9 @@ public class GrayScale {
 
                 finalImage.setPixel(i,j,Color.argb(A,R,G,B));
             }
+            Long timeStampF = System.currentTimeMillis();
+            Long finalTime =  (timeStampF)-timeStamp;
+            System.out.println("El tiempo final es: "+ finalTime);
 
         }
         return  finalImage;
@@ -52,6 +57,7 @@ public class GrayScale {
 
     public Bitmap desaturation(ImageView original)
     {
+        Long timeStamp = System.currentTimeMillis();
         originalImage = original.getDrawable();
         originalBitmap = ((BitmapDrawable)originalImage).getBitmap();
         Bitmap finalImage = Bitmap.createBitmap(originalBitmap.getWidth(),originalBitmap.getHeight()
@@ -76,6 +82,10 @@ public class GrayScale {
                 finalImage.setPixel(i,j,Color.argb(A,R,G,B));
             }
 
+            Long timeStampF = System.currentTimeMillis();
+            Long finalTime =  (timeStampF)-timeStamp;
+            System.out.println("El tiempo final es: "+ finalTime);
+
         }
         return  finalImage;
 
@@ -84,6 +94,7 @@ public class GrayScale {
 
     public Bitmap minposition(ImageView original)
     {
+        Long timeStamp = System.currentTimeMillis();
         originalImage = original.getDrawable();
         originalBitmap = ((BitmapDrawable)originalImage).getBitmap();
         Bitmap finalImage = Bitmap.createBitmap(originalBitmap.getWidth(),originalBitmap.getHeight()
@@ -108,6 +119,10 @@ public class GrayScale {
                 finalImage.setPixel(i,j,Color.argb(A,R,G,B));
             }
 
+            Long timeStampF = System.currentTimeMillis();
+            Long finalTime =  (timeStampF)-timeStamp;
+            System.out.println("El tiempo final es: "+ finalTime);
+
         }
         return  finalImage;
 
@@ -115,6 +130,7 @@ public class GrayScale {
 
     public Bitmap maxposition(ImageView original)
     {
+        Long timeStamp = System.currentTimeMillis();
         originalImage = original.getDrawable();
         originalBitmap = ((BitmapDrawable)originalImage).getBitmap();
         Bitmap finalImage = Bitmap.createBitmap(originalBitmap.getWidth(),originalBitmap.getHeight()
@@ -138,6 +154,11 @@ public class GrayScale {
 
                 finalImage.setPixel(i,j,Color.argb(A,R,G,B));
             }
+
+            Long timeStampF = System.currentTimeMillis();
+
+            Long finalTime =  (timeStampF)-timeStamp;
+            System.out.println("El tiempo final es: "+ finalTime);
 
         }
         return  finalImage;
